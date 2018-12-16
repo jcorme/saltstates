@@ -6,7 +6,7 @@ update_ports_tree:
 {% for dep in pillar['poudriere']['dependencies'] %}
 {{ dep }}_install:
   cmd.run:
-    - name: make install clean
+    - name: make install clean BATCH=yes
     - cwd: /usr/ports/{{ pillar['poudriere']['dependency_category'][dep] }}/{{ dep }}
     - runas: root
     - use_vt: True
