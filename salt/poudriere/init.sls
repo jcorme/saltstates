@@ -1,4 +1,8 @@
 update_ports_tree:
+  module.run:
+    - name: ports.update
+    - extract: True
+update_ports_tree:
   ports.update:
     - extract: True
 
