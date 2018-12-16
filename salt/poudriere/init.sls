@@ -110,7 +110,7 @@ poudriere_install_ports_tree_{{ tree }}:
 poudriere_nginx_config:
   file.managed:
     - name: /usr/local/etc/nginx/nginx.conf
-    - source: salt://{{ slspath }}/templates/poudriere.conf
+    - source: salt://{{ slspath }}/templates/nginx.conf
     - user: root
     - group: wheel
     - file_mode: 0644
