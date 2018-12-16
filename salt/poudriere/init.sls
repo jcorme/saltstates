@@ -57,6 +57,14 @@ poudriere_config:
     - file_mode: 0644
     - template: jinja
 
+poudriere_config_dir:
+  file.directory:
+    - name: {{ pillar['poudriere']['config_dir'] }}
+    - user: root
+    - group: wheel
+    - dir_mode: 0755
+    - file_mode: 0644
+
 {% for jail in pillar['poudriere']['jails'] %}
 {% set jail_version = jail['version'] | replace('.', '-') %}
 {% set jail_name = 'freebsd_' ~ jail_version ~ jail['arch'] %}
