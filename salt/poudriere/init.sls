@@ -65,19 +65,19 @@ poudriere_config_dir:
 {% for jail in pillar['poudriere']['jails'] %}
 {% set jail_version = jail['version'] | replace('.', '-') %}
 {% set jail_name = 'freebsd_' ~ jail_version ~ jail['arch'] %}
-poudriere_create_{{ jail_name }}:
-  cmd.run:
-    - name: poudriere jail -c -j {{ jail_name }} -v {{ jail['version'] }}-{{ jail['branch'] }}
-    - runas: root
-    - use_vt: True
-    - unless: poudriere jail -l | grep {{ jail_name }}
-
 poudriere_update_{{ jail_name }}:
   cmd.run:
     - name: poudriere jail -u -j {{ jail_name }}
     - runas: root
     - use_vt: True
     - only_if: poudriere jail -l | grep {{ jail_name }}
+
+poudriere_create_{{ jail_name }}:
+  cmd.run:
+    - name: poudriere jail -c -j {{ jail_name }} -v {{ jail['version'] }}-{{ jail['branch'] }}
+    - runas: root
+    - use_vt: True
+    - unless: poudriere jail -l | grep {{ jail_name }}
 
 {% for f in ['pkglist', 'make.conf'] %}
 poudriere_config_{{ f }}:
@@ -91,19 +91,21 @@ poudriere_config_{{ f }}:
 {% endfor %}
 {% endfor %}
 
-poudriere_install_ports_tree:
+{% for tree in pillar['poudriere']['ports_trees'] %}
+poudriere_update_ports_tree_{{ tree }}:
   cmd.run:
-    - name: poudriere ports -c -p {{ pillar['poudriere']['ports_tree_name'] }}
+    - name: poudriere ports -u -p {{ tree }}
     - runas: root
     - use_vt: True
-    - unless: test -e {{ pillar['poudriere']['basefs'] }}/ports/{{ pillar['poudriere']['ports_tree_name'] }}
+    - onlyif: test -e {{ pillar['poudriere']['basefs'] }}/ports/{{ tree }}
 
-poudriere_update_ports_tree:
+poudriere_install_ports_tree_{{ tree }}:
   cmd.run:
-    - name: poudriere ports -u -p {{ pillar['poudriere']['ports_tree_name'] }}
+    - name: poudriere ports -c -p {{ tree }}
     - runas: root
     - use_vt: True
-    - onlyif: test -e {{ pillar['poudriere']['basefs'] }}/ports/{{ pillar['poudriere']['ports_tree_name'] }}
+    - unless: test -e {{ pillar['poudriere']['basefs'] }}/ports/{{ tree }}
+{% endfor %}
 
 poudriere_nginx_config:
   file.managed:
