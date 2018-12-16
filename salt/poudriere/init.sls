@@ -72,6 +72,13 @@ poudriere_create_{{ jail_name }}:
     - use_vt: True
     - unless: poudriere jail -l | grep {{ jail_name }}
 
+poudriere_update_{{ jail_name }}:
+  cmd.run:
+    - name: poudriere jail -u -j {{ jail_name }}
+    - runas: root
+    - use_vt: True
+    - only_if: poudriere jail -l | grep {{ jail_name }}
+
 {% for f in ['pkglist', 'make.conf'] %}
 poudriere_config_{{ f }}:
   file.managed:
@@ -90,6 +97,13 @@ poudriere_install_ports_tree:
     - runas: root
     - use_vt: True
     - unless: test -e {{ pillar['poudriere']['basefs'] }}/ports/{{ pillar['poudriere']['ports_tree_name'] }}
+
+poudriere_update_ports_tree:
+  cmd.run:
+    - name: poudriere ports -u -p {{ pillar['poudriere']['ports_tree_name'] }}
+    - runas: root
+    - use_vt: True
+    - onlyif: test -e {{ pillar['poudriere']['basefs'] }}/ports/{{ pillar['poudriere']['ports_tree_name'] }}
 
 poudriere_nginx_config:
   file.managed:
