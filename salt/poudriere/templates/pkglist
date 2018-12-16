@@ -1,0 +1,3 @@
+{% for pkg in pillar['poudriere']['packages'] %}
+{{ pkg }}
+{% endfor %}
