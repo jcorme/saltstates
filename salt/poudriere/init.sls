@@ -73,6 +73,7 @@ poudriere_config_{{ f }}:
     - file_mode: 0644
     - template: jinja
 {% endfor %}
+{% endfor %}
 
 poudriere_install_ports_tree:
   cmd.run:
