@@ -70,7 +70,7 @@ poudriere_update_{{ jail_name }}:
     - name: poudriere jail -u -j {{ jail_name }}
     - runas: root
     - use_vt: True
-    - only_if: poudriere jail -l | grep {{ jail_name }}
+    - onlyif: poudriere jail -l | grep {{ jail_name }}
 
 poudriere_create_{{ jail_name }}:
   cmd.run:
