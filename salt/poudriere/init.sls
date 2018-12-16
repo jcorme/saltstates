@@ -67,7 +67,7 @@ poudriere_config_dir:
 {% set jail_name = 'freebsd_' ~ jail_version ~ jail['arch'] %}
 poudriere_create_{{ jail_name }}:
   cmd.run:
-    - name: poudriere jail -c -j {{ jail_name }} -v {{ jail_version }}-{{ jail['branch'] }}
+    - name: poudriere jail -c -j {{ jail_name }} -v {{ jail['version'] }}-{{ jail['branch'] }}
     - runas: root
     - use_vt: True
     - unless: poudriere jail -l | grep {{ jail_name }}
