@@ -36,3 +36,5 @@ nfs_reload_mountd:
   service.running:
     - name: mountd
     - reload: True
+    - watch:
+      - file: nfs_create_exports
