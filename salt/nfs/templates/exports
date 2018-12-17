@@ -54,6 +54,8 @@
 
 {% endif %}
 
+{% endif %}
+
 V4: {{ export.name }} {{ hosts | join(' ') }}
 
 {% endfor %}
