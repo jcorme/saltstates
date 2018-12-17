@@ -6,10 +6,10 @@
 
 {% set options = [] %}
 {% for opt in host.get('options', []) %}
-{% options.append(opt) %}
+{% do options.append(opt) %}
 {% endfor %}
 {% for network in host.get('networks', []) %}
-{% options.append('-network ' ~ network) %}
+{% do options.append('-network ' ~ network) %}
 {% endfor %}
 
 {{ export.name }} {{ options | join(' ') }} {{ host.get('hosts', []) | join(' ') }}
@@ -19,10 +19,10 @@
 
 {% set options = [] %}
 {% for opt in export.get('options', []) %}
-{% options.append(opt) %}
+{% do options.append(opt) %}
 {% endfor %}
 {% for network in export.get('networks', []) %}
-{% options.append('-network ' ~ network) %}
+{% do options.append('-network ' ~ network) %}
 {% endfor %}
 
 {{ export.name }} {{ options | join(' ') }} {{ export.get('hosts', []) | join(' ') }}
@@ -36,20 +36,20 @@
 
 {% for host in export.hosts_separate %}
 {% for network in host.get('networks', []) %}
-{% hosts.append('-network ' ~ network) %}
+{% do hosts.append('-network ' ~ network) %}
 {% endfor %}
 {% for hostname in host.get('hosts', []) %}
-{% hosts.append(hostname) %}
+{% do hosts.append(hostname) %}
 {% endfor %}
 {% endfor %}
 
 {% else %}
 
 {% for host in export.get('hosts', []) %}
-{% hosts.append(host) %}
+{% do hosts.append(host) %}
 {% endfor %}
 {% for network in export.get('networks', []) %}
-{% hosts.append('-network ' ~ network) %}
+{% do hosts.append('-network ' ~ network) %}
 {% endfor %}
 
 {% endif %}
