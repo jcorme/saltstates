@@ -1,11 +1,11 @@
-{% for group in pillar['groups'] %}
+{% for group in salt['pillar.get']('groups', []) %}
 group_{{ group['name'] }}:
   group.present:
     - name: {{ group['name'] }}
     - gid: {{ group['gid'] }}
 {% endfor %}
 
-{% for user in pillar['users'] %}
+{% for user in salt['pillar.get']('users', []) %}
 user_{{ user['name'] }}:
   group.present:
     - name: {{ user['name'] }}

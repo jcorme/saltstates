@@ -1,5 +1,7 @@
 # Only supports FreeBSD
 
+{% if salt['pillar.get']('nfs:exports', []) | length > 0 %}
+
 nfs_create_exports:
   file.managed:
     - name: /etc/exports
@@ -38,3 +40,5 @@ nfs_reload_mountd:
     - reload: True
     - watch:
       - file: nfs_create_exports
+
+{% endif %}

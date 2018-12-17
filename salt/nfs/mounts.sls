@@ -1,4 +1,4 @@
-{% for mount in pillar.nfs.mounts %}
+{% for mount in salt['pillar.get']('nfs:mounts', []) %}
 nfs_mount_{{ mount.mount_point | replace ('/', '-')}}:
   mount.mounted:
     - name: {{ mount.mount_point }}
