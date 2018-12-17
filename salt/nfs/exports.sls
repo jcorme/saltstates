@@ -1,3 +1,5 @@
+# Only supports FreeBSD
+
 nfs_create_exports:
   file.managed:
     - name: /etc/exports
@@ -16,6 +18,11 @@ nfs_set_mountd_flag:
   sysrc.managed:
     - name: mountd_flags
     - value: '-r'
+
+nfs_enable_v4_server:
+  sysrc.managed:
+    - name: nfsv4_server_enable
+    - value: YES
 
 nfs_enable_server:
   sysrc.managed:
