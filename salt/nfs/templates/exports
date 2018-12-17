@@ -38,7 +38,7 @@
       {%- for network in export.get('networks', []) -%}
         {%- do hosts.append('-network ' ~ network) -%}
       {%- endfor -%}
-    {%- endif -%}
-  {%- endif %}
-V4: {{ export.name }} {{ hosts | join(' ') }}
+    {%- endif %}
+V4: {{ export.get('v4_root', export.name) }} {{ hosts | join(' ') }}
+  {%- endif -%}
 {%- endfor -%}
