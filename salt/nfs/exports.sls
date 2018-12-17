@@ -1,13 +1,11 @@
-{% for export in salt['pillar.get']('nfs:exports', []) %}
-add_export_{{ export.name | replace('/', '-') }}:
-  nfs_export.present:
-    - name: {{ export.name }}
-    - hosts: {{ export.hosts }}
-    - options:
-      {% for opt in export.options %}
-      - {{ opt }}
-      {% endfor %}
-{% endfor %}
+nfs_create_exports:
+  file.managed:
+    - name: /etc/exports
+    - source: salt://{{ slspath }}/templates/exports
+    - user: root
+    - group: wheel
+    - file_mode: 0644
+    - template: jinja
 
 nfs_enable_rpcbind:
   sysrc.managed:
@@ -26,3 +24,8 @@ nfs_enable_server:
 
   service.running:
     - name: nfsd
+
+nfs_reload_mountd:
+  service.running:
+    - name: mountd
+    - reload: True

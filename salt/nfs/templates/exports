@@ -1,0 +1,3 @@
+{% for export in salt['pillar.get']('nfs:exports', []) %}
+{{ export.name }} {{ export.options | join (' ') }} {{ export.hosts }}
+{% endfor %}
