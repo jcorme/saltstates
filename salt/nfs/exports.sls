@@ -9,18 +9,20 @@ add_export_{{ export.name | replace('/', '-') }}:
       {% endfor %}
 {% endfor %}
 
-nfs_server_config:
+nfs_enable_rpcbind:
   sysrc.managed:
     - name: rpcbind_enable
     - value: YES
 
-  sysrc.managed:
-    - name: nfs_server_enable
-    - value: YES
-
+nfs_set_mountd_flag
   sysrc.managed:
     - name: mountd_flags
     - value: '-r'
+
+nfs_enable_server:
+  sysrc.managed:
+    - name: nfs_server_enable
+    - value: YES
 
   service.running:
     - name: nfsd
