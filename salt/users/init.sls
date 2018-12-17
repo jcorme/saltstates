@@ -14,8 +14,11 @@ user_{{ user['name'] }}:
   user.present:
     - name: {{ user['name'] }}
     - fullname: {{ user['fullname'] }}
+    {% if user.get('empty_password', False) %}
+    - empty_password: True
+    {% else %}
     - password: {{ user['password'] }}
-    - hash_password: True
+    {% endif %}
     - createhome: {{ user.get('createhome', True) }}
     - shell: {{ user['shell'] }}
     - uid: {{ user['uid'] }}
