@@ -10,12 +10,9 @@ update_ports_tree:
     - onlyif: test -e /usr/ports
 
 {% for dep in pillar['poudriere']['dependencies'] %}
-{{ dep }}_install:
-  cmd.run:
-    - name: make install clean BATCH=yes
-    - cwd: /usr/ports/{{ pillar['poudriere']['dependency_category'][dep] }}/{{ dep }}
-    - runas: root
-    - use_vt: True
+{{ dep | replace('/', '-') }}_install:
+  ports.installed:
+    - name: dep
 {% endfor %}
 
 {% for dir in ['certs', 'keys'] %}
