@@ -14,7 +14,7 @@ nfs_enable_rpcbind:
     - name: rpcbind_enable
     - value: YES
 
-nfs_set_mountd_flag
+nfs_set_mountd_flag:
   sysrc.managed:
     - name: mountd_flags
     - value: '-r'
