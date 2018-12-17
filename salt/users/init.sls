@@ -16,7 +16,7 @@ user_{{ user['name'] }}:
     - fullname: {{ user['fullname'] }}
     - password: {{ user['password'] }}
     - hash_password: True
-    - createhome: {{ user['createhome'] or True }}
+    - createhome: {{ user.get('createhome', True) }}
     - shell: {{ user['shell'] }}
     - uid: {{ user['uid'] }}
     - gid: {{ user['gid'] }}
