@@ -12,7 +12,7 @@ update_ports_tree:
 {% for dep in pillar['poudriere']['dependencies'] %}
 {{ dep | replace('/', '-') }}_install:
   ports.installed:
-    - name: dep
+    - name: {{ dep }}
 {% endfor %}
 
 {% for dir in ['certs', 'keys'] %}
