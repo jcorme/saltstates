@@ -1,7 +1,13 @@
-update_ports_tree:
+fetch_extract_ports_tree:
   module.run:
     - name: ports.update
     - extract: True
+    - unless: test -e /usr/ports
+
+update_ports_tree:
+  module.run:
+    - name: ports.update
+    - onlyif: test -e /usr/ports
 
 {% for dep in pillar['poudriere']['dependencies'] %}
 {{ dep }}_install:
