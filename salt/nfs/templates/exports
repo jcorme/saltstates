@@ -20,25 +20,20 @@
     {%- endfor %}
 {{ export.name }} {{ options | join(' ') }} {{ export.get('hosts', []) | join(' ') }}
   {%- endif -%}
-  {%- if export.get('export_v4', False) -%}
-    {%- set hosts = [] -%}
-    {%- if 'hosts_separate' in export -%}
-      {%- for host in export.hosts_separate -%}
-        {%- for network in host.get('networks', []) -%}
-          {%- do hosts.append('-network ' ~ network) -%}
-        {%- endfor -%}
-        {%- for hostname in host.get('hosts', []) -%}
-          {%- do hosts.append(hostname) -%}
-        {%- endfor -%}
-      {%- endfor -%}
-    {%- else -%}
-      {%- for host in export.get('hosts', []) -%}
-        {%- do hosts.append(host) -%}
-      {%- endfor -%}
+{%- endfor -%}
+{%- if salt['pillar.get']('nfs:v4_export_root') is defined -%}
+  {%- if salt['pillar.get']('nfs:v4_exports') is defined -%}
+    {%- for export in salt['pillar.get']('nfs:v4_exports') -%}
+      {%- set hosts = [] -%}
       {%- for network in export.get('networks', []) -%}
         {%- do hosts.append('-network ' ~ network) -%}
       {%- endfor -%}
-    {%- endif %}
-V4: {{ export.get('v4_root', export.name) }} {{ hosts | join(' ') }}
+      {%- for host in export.get('hosts', []) -%}
+        {%- do hosts.append(host) -%}
+      {%- endfor %}
+V4: {{ salt['pillar.get']('nfs:v4_export_root') }} {{ hosts | join(' ') }}
+    {%- endfor -%}
+  {%- else -%}
+V4: {{ salt['pillar.get']('nfs:v4_export_root') }}
   {%- endif -%}
-{%- endfor -%}
+{%- endif -%}
