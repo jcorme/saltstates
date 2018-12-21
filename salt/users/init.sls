@@ -5,30 +5,30 @@ group_{{ group['name'] }}:
     - gid: {{ group['gid'] }}
 {% endfor %}
 
-{% for user in salt['pillar.get']('users', []) %}
-user_{{ user['name'] }}:
+{% for user_name, user in salt['pillar.get']('users', {}).items() %}
+user_{{ user_name }}:
   group.present:
-    - name: {{ user['name'] }}
-    - gid: {{ user['gid'] }}
+    - name: {{ user_name }}
+    - gid: {{ user.gid }}
 
   user.present:
-    - name: {{ user['name'] }}
-    - fullname: {{ user['fullname'] }}
+    - name: {{ user_name }}
+    - fullname: {{ user.fullname }}
     {% if user.get('empty_password', False) %}
     - empty_password: True
     {% else %}
-    - password: {{ user['password'] }}
+    - password: {{ user.password }}
     {% endif %}
     - createhome: {{ user.get('createhome', True) }}
-    - shell: {{ user['shell'] }}
-    - uid: {{ user['uid'] }}
-    - gid: {{ user['gid'] }}
+    - shell: {{ user.shell }}
+    - uid: {{ user.uid }}
+    - gid: {{ user.gid }}
     {% if 'groups' in user %}
     - groups:
-      {% for group in user['groups'] %}
+      {% for group in user.groups %}
       - {{ group }}
       {% endfor %}
     {% endif %}
     - require:
-        - group: user_{{ user['name'] }}
+        - group: user_{{ user_name }}
 {% endfor %}
