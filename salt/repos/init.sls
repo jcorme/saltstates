@@ -5,7 +5,7 @@ create_freebsd_repo_{{ repo.name }}:
     - source: salt://{{ slspath }}/templates/freebsd_repo.conf
     - user: root
     - group: wheel
-    - file_mode: 0644
+    - mode: 0644
     - makedirs: True
     - template: jinja
     - context:
@@ -17,7 +17,7 @@ create_freebsd_repo_{{ repo.name }}_key_file:
     - name: {{ repo.pubkey_location }}
     - user: root
     - group: wheel
-    - file_mode: 0600
+    - mode: 0600
     - dir_mode: 0700
     - makedirs: True
     - contents: |

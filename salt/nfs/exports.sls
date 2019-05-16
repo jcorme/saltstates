@@ -8,7 +8,7 @@ nfs_create_exports:
     - source: salt://{{ slspath }}/templates/exports
     - user: root
     - group: wheel
-    - file_mode: 0644
+    - mode: 0644
     - template: jinja
 
 nfs_enable_rpcbind:
