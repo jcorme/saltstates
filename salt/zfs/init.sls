@@ -4,7 +4,7 @@ add_zfs_repo:
     - source: salt://{{ slspath }}/files/RPM-GPG-KEY-zfsonlinux
     - user: root
     - group: root
-    - file_mode: 0644
+    - mode: 0644
 
   pkgrepo.managed:
     - name: zfs-testing-kmod
