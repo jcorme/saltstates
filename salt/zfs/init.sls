@@ -15,6 +15,11 @@ add_zfs_repo:
     - gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-zfsonlinux
     - metadata_expire: 7d
 
+install_zfs_deps:
+  pkg.installed:
+    - pkgs:
+      - sysstat
+
 install_zfs_pkg:
   pkg.installed:
     - name: zfs
@@ -22,3 +27,5 @@ install_zfs_pkg:
     - refresh: True
     - version: 0.8.1-1.el7
     - allow_updates: False
+    - require:
+        - install_zfs_deps
