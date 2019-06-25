@@ -26,3 +26,12 @@ samba_firewalld_config:
     - prune_services: False
     - services:
       - samba
+
+{% for root in salt['pillar.get']('samba:server:selinux_roots', []) %}
+{% set spec = root ~ '(/.*)?' %}
+samba_selinux_policy_{{ root }}:
+  selinux.fcontext_policy_present:
+    - name: {{ spec }}
+    - sel_type: samba_share_t
+    - filetype: a
+{% endfor %}
