@@ -19,3 +19,10 @@ samba_create_config:
     - group: root
     - mode: 0644
     - template: jinja
+
+samba_firewalld_config:
+  firewalld.present:
+    - name: public
+    - prune_services: False
+    - services:
+      - samba
