@@ -1,5 +1,6 @@
 include:
   - samba
+  - avahi
 
 {% for user in salt['pillar.get']('samba:server:users', []) %}
 samba_add_user_{{ user['name'] }}:
@@ -47,3 +48,20 @@ nmb:
     - enable: True
     - require:
       - pkg: samba
+
+broadcast_smb_avahi:
+  file.managed:
+    - name: /etc/avahi/services/samba.service
+    - source: salt://{{ slspath }}/files/avahi-service.xml
+    - user: root
+    - group: root
+    - mode: 0644
+    - require:
+      - pkg: avahi
+
+  service.running:
+    - name: avahi-daemon
+    - enable: True
+    - reload: True
+    - require:
+      - file: /etc/avahi/services/samba.service
