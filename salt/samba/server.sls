@@ -7,8 +7,7 @@ samba_add_user_{{ user['name'] }}:
   pdbedit.managed:
     - name: {{ user['name'] }}
     - login: {{ user['name'] }}
-    - password: |
-        {{ user['password'] | indent(8) }}
+    - password: {{ user['password'] }}
     - password_hashed: False
 {% endfor %}
 
