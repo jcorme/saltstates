@@ -1,0 +1,1 @@
+KERNEL=="{{ interface }}", RUN+="/sbin/ip link set {{ interface }} txqueuelen 10000"
