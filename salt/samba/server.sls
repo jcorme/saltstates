@@ -35,3 +35,15 @@ samba_selinux_policy_{{ root }}:
     - sel_type: samba_share_t
     - filetype: a
 {% endfor %}
+
+smb:
+  service.running:
+    - enable: True
+    - require:
+      - pkg: samba
+
+nmb:
+  service.running:
+    - enable: True
+    - require:
+      - pkg: samba
