@@ -4,5 +4,6 @@ base:
     - users
   'alpha.jcn':
     - zfs
+    - samba.server
   'poudry*':
     - poudriere
