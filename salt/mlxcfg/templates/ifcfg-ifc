@@ -5,3 +5,4 @@ NETMASK=255.255.255.0
 IPADDR={{ ip }}
 USERCTL=no
 MTU=9000
+ZONE=public
