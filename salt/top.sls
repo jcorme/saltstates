@@ -6,5 +6,6 @@ base:
   'alpha.jcn':
     - zfs
     - samba.server
+    - nfs-server
   'poudry*':
     - poudriere
