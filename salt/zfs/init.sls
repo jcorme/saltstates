@@ -29,3 +29,13 @@ install_zfs_pkg:
     - allow_updates: False
     - require:
         - install_zfs_deps
+
+{% for pool in salt['pillar.get']('host:zfs:pools', []) %}
+cron_scrub_zfs_pool_{{ pool }}:
+  cron.present:
+    - name: zpool scrub {{ pool }} >/dev/null 2>&1
+    - user: root
+    - minute: 0
+    - hour: 9
+    - dayweek: 1
+{% endfor %}
